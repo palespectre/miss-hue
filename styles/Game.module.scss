@@ -1,0 +1,14 @@
+.puzzleWrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 30rem;
+    height: 26rem;
+    margin: auto;
+
+    .tint {
+        width: 4rem;
+        height: 4rem;
+        cursor: grab;
+    }
+}
