@@ -49,19 +49,20 @@ export default function Game() {
           }
           return box;
         });
-    
+        
         setBoxes(newBoxState);
         setCount(count + 1);
+      };
 
-        let children = Array.prototype.slice.call(tints.current.children);
+      const handleDrangEnd = () => {
         let ids = [];
-        children.map(child => (
-            ids.push(parseInt(child.id))
+        boxes.map(el => (
+            ids.push(parseInt(el.id))
         ))
         if (isSorted(ids)) {
             alert('BRAAVOOOO');
         };
-      };
+      }
 
     return (
         <main>
@@ -80,8 +81,9 @@ export default function Game() {
                         onDragOver={(ev) => ev.preventDefault()}
                         onDragStart={handleDrag}
                         onDrop={handleDrop}
+                        onDragEnd={handleDrangEnd}
                         style={{ backgroundColor: box.color}}
-                    >{box.order}</div>
+                    ></div>
                 ))}
             </div>
             <span>{count}</span>
