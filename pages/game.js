@@ -1,7 +1,7 @@
 import styles from '../styles/Game.module.scss'
 import { useRouter } from 'next/router'
 import React, { useState, useRef } from 'react'
-const chroma = require('chroma-js');
+const chroma = require('chroma-js')
 
 export default function Game() {
     const router = useRouter()
@@ -10,24 +10,57 @@ export default function Game() {
     const [count, setCount] = useState(0);
     const tints = useRef(null);
     let idColor = 0;
-
     const colorsScale = chroma.scale([firstColor, secondColor]).mode('lch').colors(9);
     let palette = [];
+    let finalPalette = [];
+    let nonMoveabledBlocks = [];
+    let moveabledBlocks = [];
 
-    colorsScale.map(color=> {
+    for (let i=0; i<54; i++) {
+        if ((i%6 === 0) || (i === 5) || (i%6 === 5)) {
+            nonMoveabledBlocks.push(i);
+        } else {
+            moveabledBlocks.push(i);
+        }
+    }
+
+    colorsScale.map(color => {
+        for (let i=0; i<6; i++) {
+            let rand = Math.floor(Math.random()*moveabledBlocks.length)
+            let order;
+
+            if (nonMoveabledBlocks.includes(idColor)) {
+                order = idColor
+            } else {
+                order = moveabledBlocks.splice(rand, 1)
+            }
+
+            let obj = {
+                id: idColor,
+                order: order,
+                color: chroma(color).brighten(0.4 * i).hex()
+            };
+            palette.push(obj)
+            idColor++
+        };
+    });
+
+    colorsScale.map(color => {
         for (let i=0; i<6; i++) {
             let obj = {
                 id: idColor,
                 order: idColor,
                 color: chroma(color).brighten(0.4 * i).hex()
             };
-            palette.push(obj);
-            idColor++;
+            finalPalette.push(obj)
+            idColor++
         };
     });
+
     const [boxes, setBoxes] = useState(palette);
 
     const isSorted = arr => arr.every((v,i,a) => !i || a[i-1] <= v);
+
 
     const handleDrag = (ev) => {
         setDragId(ev.currentTarget.id);

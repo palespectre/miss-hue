@@ -2,13 +2,39 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 30rem;
-    height: 26rem;
+    width: 54rem;
+    height: 41rem;
     margin: auto;
 
     .tint {
-        width: 4rem;
-        height: 4rem;
+        position: relative;
+        width: 6rem;
+        height: 6rem;
         cursor: grab;
+        transition: transform 0.2s ease-out;
+
+        &:hover {
+            transform: scale(0.9);
+        }
+
+        &:first-of-type, &:nth-of-type(6n), &:nth-of-type(6n+1) {
+            -webkit-user-select: none;
+            -webkit-user-drag: none;
+            -webkit-app-region: no-drag;
+            cursor: default;
+            
+            &:before {
+                position: absolute;
+                content: 'x';
+                color: white;
+                left: 50%;
+                top: 50%;
+                transform: translateX(-50%) translateY(-50%);
+            }
+
+            &:hover {
+                transform: scale(1);
+            }
+        }
     }
 }
